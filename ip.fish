@@ -1,5 +1,7 @@
 set __fish_ip_objects {"link","address","addrlabel","route","rule","neighbor","ntable","tunnel","tuntap","maddress","mroute","mrule","monitor","xfrm","netns","l2tp","fou","tcp_metrics","token","netconf"}
 
+set __fish_ip_objects_short {"l","a","r","ru","n"}
+
 function __fish_ip_print_objects
   for ob in $__fish_ip_objects 
     echo $ob
@@ -10,6 +12,13 @@ function __fish_ip_uses_object
   set cmd (commandline -opc)
   if [ (count $cmd) -gt 1 ]
     for ob in $__fish_ip_objects 
+      for c in $cmd 
+        if [ $ob =  $c ]
+          return 0
+        end
+      end
+    end
+    for ob in $__fish_ip_objects_short
       for c in $cmd 
         if [ $ob =  $c ]
           return 0
